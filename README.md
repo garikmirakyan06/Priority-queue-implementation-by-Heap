@@ -13,9 +13,9 @@ template<
 ## Features
 - **Max-Heap** (default behavior) or **Min-Heap** using a comparator.
 - Operations: `push`, `pop`, `top`, `size`, `empty`.
-- Uses a binary heap structure for efficient element access and manipulation.
+- by default uses std::vector container.  
 - Implements heapify operations (`heapify_up` and `heapify_down`) for maintaining heap property.
-- **Customizable container**: You can use any container that supports following functions:
+- **Customizable container**: You can use any container that supports following functions (can use std::deque):
   - `empty()`
   - `size()`
   - `operator[]()`
@@ -26,6 +26,7 @@ template<
 
 ### Example for Max-Heap (default):
 ```cpp
+#include <iostream>
 #include "Priority_queue.hpp"
 
 int main() {
