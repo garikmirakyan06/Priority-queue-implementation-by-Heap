@@ -1,6 +1,6 @@
 # Priority Queue Implementation
 
-This is a custom implementation of a priority queue in C++ using a binary heap. It supports both **max-heap** and **min-heap** functionality by using comparators (`std::greater` and `std::less`).
+This is a custom implementation of a priority queue container adaptor in C++ using a binary heap. It supports both **max-heap** and **min-heap** functionality by using comparators (`std::greater` and `std::less`).
 ```cpp
 template<
     class T,
