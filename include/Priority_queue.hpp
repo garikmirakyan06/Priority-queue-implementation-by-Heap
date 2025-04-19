@@ -4,11 +4,12 @@
 #include <iostream>
 #include <vector>
 #include <functional> // For std::greater and std::less
+#include <initializer_list>
 
 /**
- * The heap condition is, for all nodes except the root node,
- * parent nodes value must have higher priority than that nodes value.
- * 
+ * The heap condition is that, for all nodes except the root, 
+ * the parent node's value must have higher or equal priority than that node's value.
+ *
  * if comparator is std::less - minHeap
  * if comparator is std::greater - maxHeap 
  */
@@ -21,17 +22,93 @@ private:
     Compare compare;
 
     void heapify_down(size_t);
-    void heapify_up(); // i is index of last element
+    void heapify_up(); // Start with last element
+	
+	template <typename InputIterator>
+	void make_heap(InputIterator first, InputIterator last);
+	
+	void make_heap() { make_heap(container.begin(), container.end()); } // Overloading for full container 
 
 public:
+	// Member types
+	using container_type = Container;
+	using value_compare = Compare;
+	using value_type = typename Container::value_type;
+	using size_type = typename Container::size_type;
+	using reference = typename Container::reference;
+	
+	// Constructors
+    explicit Priority_queue(const Container& container = Container(),
+    const Compare& compare = Compare())
+    : container(container), compare(compare) {
+    	if(container.size() != 0)
+    		make_heap(); // first = container.begin(), last = container.end()
+    }
+    
+	// Range constructor
+	template <typename InputIterator>
+	Priority_queue(InputIterator first, InputIterator last,
+    const Compare& compare = Compare())
+    : container(first, last), compare(compare) {
+    	make_heap();
+    }
+    
+    // Copy constructor
+    Priority_queue(const Priority_queue& other) : container(other.container), compare(other.compare) {} 
+    
+    // Move constructor
+    Priority_queue(Priority_queue&& other) noexcept : container(std::move(other.container)), compare(std::move(other.compare)) {} // noexcept is used to work optimally with STL containers
+    
+    // Initilizer_list constructor
+    Priority_queue(std::initializer_list<T> lis) : container(lis), compare() {
+    	make_heap();
+    }
+    
+    // Copy assignment
+    Priority_queue& operator=(const Priority_queue& other) {
+		if(this != &other) {
+			container = other.container;
+			compare = other.compare;
+		}
+		return *this;
+	}
+    
+    // Move assignment
+    Priority_queue& operator=(Priority_queue&& other) noexcept {
+		if(this != &other) {
+			container = std::move(other.container);
+			compare = std::move(other.compare);
+		}
+		return *this;
+	}
+	
+	// Destructor
+	~Priority_queue() = default;
+	
+    // Functions
     bool empty() const;
     size_t size() const;
     T top() const;
     void push(const T&);
     void pop();
-
 };
 
+
+
+
+// make_heap
+/**
+ * 
+ * time complexity is O(n) (maximum 3*n comparisons) 
+ * 
+ */
+template <typename T, typename Container, typename Compare>
+template <typename InputIterator>
+void Priority_queue<T, Container, Compare>::make_heap(InputIterator first, InputIterator last) {
+	for(int i = container.size()/2 - 1; i >= 0; i--) { // dont count leaves
+		heapify_down(i);
+	}
+}
 
 // pop
 template <typename T, typename Container, typename Compare>
