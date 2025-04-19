@@ -23,22 +23,11 @@ template<
   - `pop_back()`
 
 ## Usage
+```bash
 
-### Example for Max-Heap (default):
-```cpp
-#include <iostream>
-#include "Priority_queue.hpp"
+cd scripts
 
-int main() {
-    Priority_queue<int> pq;
-    pq.push(10);
-    pq.push(20);
-    pq.push(15);
+./docker_install.sh # if dont have docker installed
 
-    while (!pq.empty()) {
-        std::cout << pq.top() << " ";
-        pq.pop();
-    }
-    // Output: 20 15 10
-    return 0;
-}
+./docker_run.sh # to run docker
+
