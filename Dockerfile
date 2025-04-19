@@ -14,6 +14,6 @@ COPY . .
 
 RUN /app/scripts/build.sh
 
-CMD /app/bin/PQueue
+CMD ["/app/bin/PQueue"]
 
 
